@@ -23,14 +23,21 @@ export class GameControlComponent implements OnInit {
 
   private emitEventEveryPeriodTime(period: number): void {
     const this_ = this;
-    this_.interval = setInterval(function() {
-      this_.popCurrentSecondEvent.emit(this_.currentSecond++);
-    }, period);
+    if(this.internalNotExist()) {
+      this_.interval = setInterval(function() {
+        this_.popCurrentSecondEvent.emit(this_.currentSecond++);
+      }, period);
+    }
+  }
+
+  private internalNotExist(): boolean {
+    return this.interval === 0;
   }
 
   public stopAction(): void {
     this.status = "Stop";
     clearInterval(this.interval);
+    this.interval = 0;
   }
 
 }
